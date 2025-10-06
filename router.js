@@ -4,6 +4,8 @@ const crypto = require("crypto");
 const { Pool } = require("pg");
 const rateLimit = require("express-rate-limit");
 
+require("dotenv").config();
+
 const { verifyCode, verifyUrl } = require("./middlewares");
 
 const host = process.env.POSTGRES_HOST;
