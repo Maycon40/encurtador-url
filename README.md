@@ -47,8 +47,8 @@ PORT=3000
 ### 1️⃣ Clonar o repositório
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
-cd <PASTA_DO_PROJETO>
+git clone https://github.com/Maycon40/encurtador-url.git
+cd encurtador-url
 ```
 
 ### 2️⃣ Criar o arquivo `.env`
