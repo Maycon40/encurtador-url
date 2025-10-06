@@ -10,6 +10,7 @@ const host = process.env.POSTGRES_HOST;
 const user = process.env.POSTGRES_USER;
 const password = process.env.POSTGRES_PASSWORD;
 const database = process.env.POSTGRES_DB;
+const ssl = Boolean(process.env.SSL) || false;
 const postgresPort = Number(process.env.POSTGRES_PORT) || 5432;
 
 const pool = new Pool({
@@ -18,6 +19,7 @@ const pool = new Pool({
   password,
   database,
   port: postgresPort,
+  ssl,
 });
 
 function generateCode() {
