@@ -106,7 +106,28 @@ docker compose up -d
 
 ---
 
-### 3️⃣ Deletar URL encurtada
+### 3️⃣ Redirecionar para URL original
+
+`GET /statics/:code`
+
+- `code` é o código retornado ao criar a URL
+- Mostra estatísticas do link.
+
+**Resposta**
+
+```json
+{
+  "original_url": "https://www.yourdomain.com",
+  "short_url": "https://enc.maycon.dev.br/ad39e662",
+  "clicks": 1,
+  "created_at": "2025-10-06T17:30:03.008Z",
+  "expires_at": "2025-10-06T17:30:03.008Z"
+}
+```
+
+---
+
+### 4️⃣ Deletar URL encurtada
 
 `DELETE /:code`
 
