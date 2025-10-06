@@ -106,7 +106,7 @@ docker compose up -d
 
 ---
 
-### 3️⃣ Redirecionar para URL original
+### 3️⃣ Estatísticas do link
 
 `GET /statics/:code`
 
