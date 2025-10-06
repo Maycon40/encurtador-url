@@ -14,7 +14,7 @@ async function main() {
   //  console.log("response", await response.json());
 }
 
-//main();
+main();
 
 async function delete1() {
   const response = await fetch("http://localhost:3000/22e9ecee", {

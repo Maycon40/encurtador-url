@@ -46,12 +46,12 @@ const limiterGet = rateLimit({
   max: 10,
 });
 
-router.get("/:code", limiterGet, verifyCode, async (req, res) => {
+router.get("/statics/:code", limiterGet, verifyCode, async (req, res) => {
   try {
     const { code } = req.params;
 
     const result = await pool.query(
-      "SELECT original_url FROM urls WHERE short_code = $1",
+      "SELECT clicks, original_url, expires_at FROM urls WHERE short_code = $1",
       [code]
     );
 
@@ -59,13 +59,45 @@ router.get("/:code", limiterGet, verifyCode, async (req, res) => {
       return res.status(404).send("URL não encontrada!");
     }
 
-    // opcional: contabilizar clique
+    const { original_url, clicks, expires_at } = result.rows[0];
+
+    return res.send({
+      original_url,
+      short_url: `${req.protocol}://${req.get("host")}/${code}`,
+      clicks,
+      expires_at,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Erro no servidor");
+  }
+});
+
+router.get("/:code", limiterGet, verifyCode, async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const result = await pool.query(
+      "SELECT original_url, expires_at FROM urls WHERE short_code = $1",
+      [code]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).send("URL não encontrada!");
+    }
+
+    const { original_url, expires_at } = result.rows[0];
+
+    if (expires_at && new Date() > expires_at) {
+      return res.status(410).send("Este link expirou!");
+    }
+
     await pool.query(
       "UPDATE urls SET clicks = clicks + 1 WHERE short_code = $1",
       [code]
     );
 
-    return res.redirect(result.rows[0].original_url);
+    return res.redirect(original_url);
   } catch (err) {
     console.error(err);
     return res.status(500).send("Erro no servidor");
@@ -75,11 +107,12 @@ router.get("/:code", limiterGet, verifyCode, async (req, res) => {
 router.post("/shorten", limiter, verifyUrl, async (req, res) => {
   const { url } = req.body;
   const code = generateCode();
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
   try {
     await pool.query(
-      "INSERT INTO urls (short_code, original_url) VALUES ($1, $2)",
-      [code, url]
+      "INSERT INTO urls (short_code, original_url, expires_at) VALUES ($1, $2, $3)",
+      [code, url, expiresAt]
     );
 
     return res.json({

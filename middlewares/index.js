@@ -9,8 +9,6 @@ function verifyCode(req, res, next) {
 }
 
 function verifyUrl(req, res, next) {
-  console.log("body", req.body);
-
   if (!req.body || !req.body["url"]) {
     return res.status(400).send("A URL é obrigatória!");
   }

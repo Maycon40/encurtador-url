@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS urls (
     short_code VARCHAR(10) UNIQUE NOT NULL,
     original_url TEXT NOT NULL,
     clicks INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    expires_at TIMESTAMP
 );
