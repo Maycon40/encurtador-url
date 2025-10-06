@@ -64,7 +64,7 @@ Obs: é importante customizar o arquivo `.env` com a sua própria senha.
 ### 3️⃣ Subir os containers com Docker Compose
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 - Isso sobe o **Postgres** e o **Node.js**
