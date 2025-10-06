@@ -54,7 +54,7 @@ cd encurtador-url
 ### 2️⃣ Criar o arquivo `.env`
 
 ```bash
-cp env.example .env
+cp env.docker.example .env
 ```
 
 Obs: é importante customizar o arquivo `.env` com a sua própria senha.

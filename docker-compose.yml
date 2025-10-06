@@ -12,6 +12,8 @@ services:
       - NODE_ENV=production
     depends_on:
       - postgres
+    networks:
+      - app_network
 
   postgres:
     image: postgres:16
@@ -24,6 +26,11 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app_network
 
 volumes:
   pgdata:
+
+networks:
+  app_network:
