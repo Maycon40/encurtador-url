@@ -51,7 +51,7 @@ router.get("/statics/:code", limiterGet, verifyCode, async (req, res) => {
     const { code } = req.params;
 
     const result = await pool.query(
-      "SELECT clicks, original_url, expires_at FROM urls WHERE short_code = $1",
+      "SELECT clicks, original_url, created_at, expires_at FROM urls WHERE short_code = $1",
       [code]
     );
 
@@ -59,12 +59,13 @@ router.get("/statics/:code", limiterGet, verifyCode, async (req, res) => {
       return res.status(404).send("URL não encontrada!");
     }
 
-    const { original_url, clicks, expires_at } = result.rows[0];
+    const { original_url, clicks, created_at, expires_at } = result.rows[0];
 
     return res.send({
       original_url,
       short_url: `${req.protocol}://${req.get("host")}/${code}`,
       clicks,
+      created_at,
       expires_at,
     });
   } catch (err) {

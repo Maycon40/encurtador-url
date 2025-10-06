@@ -23,6 +23,11 @@ describe("Teste do encurtador de URL", () => {
     expect(res.headers.location).toBe("https://www.google.com");
   });
 
+  test("Deve mostrar estatísticas válidas", async () => {
+    const code = shortUrl.split("/").pop();
+    const res = await request(app).get(`/statics/${code}`).expect(200);
+  });
+
   test("Deve deletar a URL encurtada", async () => {
     const code = shortUrl.split("/").pop();
     const res = await request(app).delete(`/${code}`).expect(200);
