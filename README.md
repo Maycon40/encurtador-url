@@ -35,6 +35,14 @@ PORT=3000
 
 ---
 
+## Requerimentos
+
+- **Node.js** – A partir da versão 22.
+- **npm** – A partir da versão 10.
+- **docker compose** - A partir da versão 2.39.
+
+---
+
 ## Passo a passo para rodar localmente
 
 ### 1️⃣ Clonar o repositório
