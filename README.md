@@ -1,6 +1,6 @@
 # Encurtador de URL
 
-Este projeto é um **encurtador de URL** simples desenvolvido em **Node.js** com **Express** e **PostgreSQL**.  
+Este projeto é um **encurtador de URL** desenvolvido em **Node.js** com **Express** e **PostgreSQL**.  
 Ele permite criar URLs curtas, redirecionar para o endereço original e rastrear cliques.
 
 ---
