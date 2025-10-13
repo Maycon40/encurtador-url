@@ -16,16 +16,9 @@ Ele permite criar URLs curtas, redirecionar para o endereço original e rastrear
 
 ---
 
-## Estrutura do projeto
+## Versão online do projeto:
 
-```bash
-├─ .env                # Variáveis de ambiente
-├─ docker-compose.yml  # Configuração do Docker Compose
-├─ init.sql            # Script inicial do banco
-├─ package.json
-└─ app/
-   ├─ server.js        # Código do servidor Node.js
-```
+Caso você queira ver o projeto em execução de forma mais rápida e facíl acesse o link: https://enc.maycon.dev.br/
 
 ---
 
