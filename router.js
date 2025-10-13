@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
 const { verifyCode, verifyUrl } = require("./middlewares");
+const req = require("express/lib/request");
 
 const host = process.env.POSTGRES_HOST;
 const user = process.env.POSTGRES_USER;
@@ -44,6 +45,66 @@ const limiterGet = rateLimit({
   ...configLimit,
   windowMs: 3 * 60 * 1000,
   max: 10,
+});
+
+router.get("/", async (req, res) => {
+  try {
+    res.send("Encurtador de URL");
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Erro no servidor");
+  }
+});
+
+router.get("/api/v1/status", async (req, res) => {
+  try {
+    const updatedAt = new Date().toISOString();
+    let status = "offline";
+    let detail = "";
+
+    try {
+      const response = await fetch("https://enc.maycon.dev.br/");
+      if (response.ok) status = "online";
+      detail = `HTTP ${response.status}`;
+    } catch (err) {
+      detail = err instanceof Error ? err.message : String(err);
+    }
+
+    const databaseName = process.env.POSTGRES_DB;
+
+    const maxConnectionsResult = await pool.query(`SHOW max_connections;`);
+    const usedConnectionsResult = await pool.query(
+      "SELECT count(*)::int FROM pg_stat_activity WHERE datname = $1;",
+      [databaseName]
+    );
+    const versionResult = await pool.query("SHOW server_version;");
+
+    const { server_version: version } = versionResult.rows[0];
+
+    const { max_connections: maxConnections } = maxConnectionsResult.rows[0];
+
+    const { count: usedConnections } = usedConnectionsResult.rows[0];
+
+    res.json({
+      updated_at: updatedAt,
+      web_service: {
+        status,
+        detail,
+        version: process.version,
+      },
+      dependencies: {
+        database: {
+          version,
+          max_connections: Number(maxConnections),
+          used_connections: usedConnections,
+          status: maxConnections ? "online" : "offline",
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Erro no servidor");
+  }
 });
 
 router.get("/statics/:code", limiterGet, verifyCode, async (req, res) => {

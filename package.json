@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Projeto para encurtar a url",
   "scripts": {
+    "server": "npm run database:up && sleep 5 && npm run dev",
+    "dev": "node server.js",
     "start": "node server.js",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "database:up": "docker compose up -d",
+    "database:down": "docker compose down"
   },
   "author": "Maycon",
   "license": "MIT",

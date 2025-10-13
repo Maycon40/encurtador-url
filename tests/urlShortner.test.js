@@ -4,6 +4,26 @@ const app = require("../app.js");
 describe("Teste do encurtador de URL", () => {
   let shortUrl = "";
 
+  test("Endpoint / deve responder status 200", async () => {
+    const res = await request(app).get(`/`);
+    expect(res.status).toBe(200);
+  });
+
+  test("Endpoint /api/v1/status deve responder status 200", async () => {
+    const res = await request(app).get(`/api/v1/status`);
+    expect(res.status).toBe(200);
+
+    const responseBody = await res.body;
+
+    console.log("responseBody", responseBody);
+
+    const dateParsed = new Date(responseBody.updated_at).toISOString();
+
+    expect(dateParsed).toEqual(responseBody.updated_at);
+    expect(responseBody.dependencies.database.status).toBe("online");
+    expect(responseBody.web_service.status).toBe("online");
+  });
+
   test("Deve encurtar uma URL válida", async () => {
     const res = await request(app)
       .post("/shorten")

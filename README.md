@@ -54,17 +54,17 @@ cd encurtador-url
 ### 2️⃣ Criar o arquivo `.env`
 
 ```bash
-cp env.docker.example .env
+cp env.local.example .env
 ```
 
 Obs: é importante customizar o arquivo `.env` com a sua própria senha.
 
 ---
 
-### 3️⃣ Subir os containers com Docker Compose
+### 3️⃣ Subir o servidor web e o banco de dados
 
 ```bash
-docker compose up -d
+npm run server
 ```
 
 - Isso sobe o **Postgres** e o **Node.js**
