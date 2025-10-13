@@ -129,7 +129,15 @@ npm run server
 
 ---
 
+### 5️⃣ Status dos serviços
+
+`GET /api/v1/status`
+
+- Vê o status do servidor web e do banco de dados.
+
+---
+
 ## Observações
 
 - O servidor precisa do **PostgreSQL** para funcionar.
-- Para desenvolvimento, você pode acessar o container Node diretamente ou usar `localhost:3000`.
+- Para desenvolvimento, você pode acessar o `localhost:3000`.
